@@ -1,0 +1,144 @@
+
+version: 2
+
+models:
+    - name: model_full_declaration_output
+      description: "A table that is created to test the correct output of the SCD2 macro"
+      tests:
+        # - dbt_expectations.expect_table_aggregation_to_equal_other_table:
+        #     compare_model: ref('expectation_table')
+        #     group_by: [TechnicalKey]
+        - dbt_utils.equality:
+            compare_model: ref('expectation_table')
+      columns:
+          - name: TechnicalKey
+            description: "The primary key for this table"
+            tests:
+                - unique
+                - not_null
+          - name: PartnerID
+            description: "The partner ID"
+            tests:
+                - not_null
+          - name: Name
+            description: "The name of the partner"
+            tests:
+                - not_null
+          - name: Canton
+            description: "The canton of the partner, abbreviated with the two letter code"
+            tests:
+                - not_null
+                - accepted_values:
+                    values:
+                        - AG
+                        - AI
+                        - AR
+                        - BE
+                        - BL
+                        - BS
+                        - FR
+                        - GE
+                        - GL
+                        - GR
+                        - JU
+                        - LU
+                        - NE
+                        - NW
+                        - OW
+                        - SG
+                        - SH
+                        - SO
+                        - SZ
+                        - TG
+                        - TI
+                        - UR
+                        - VD
+                        - VS
+                        - ZG
+                        - ZH
+          - name: Date_From
+            description: "The start date of the validity period"
+            tests:
+                - not_null
+          - name: Date_To
+            description: "The end date of the validity period"
+            tests:
+                - not_null
+          - name: Is_valid
+            description: "A flag that indicates if the record is valid"
+            tests:
+                - not_null
+                - accepted_values:
+                    values:
+                        - 'No'
+                        - 'Yes'
+
+
+    - name: output_using_macro
+      description: "Same table as model_full_declaration_output but using the SCD2 macro"
+      tests:
+        - dbt_utils.equality:
+            compare_model: ref('expectation_table')
+
+      columns:
+          - name: TechnicalKey
+            description: "The primary key for this table"
+            tests:
+                - unique
+                - not_null
+          - name: PartnerID
+            description: "The partner ID"
+            tests:
+                - not_null
+          - name: Name
+            description: "The name of the partner"
+            tests:
+                - not_null
+          - name: Canton
+            description: "The canton of the partner, abbreviated with the two letter code"
+            tests:
+                - not_null
+                - accepted_values:
+                    values:
+                        - AG
+                        - AI
+                        - AR
+                        - BE
+                        - BL
+                        - BS
+                        - FR
+                        - GE
+                        - GL
+                        - GR
+                        - JU
+                        - LU
+                        - NE
+                        - NW
+                        - OW
+                        - SG
+                        - SH
+                        - SO
+                        - SZ
+                        - TG
+                        - TI
+                        - UR
+                        - VD
+                        - VS
+                        - ZG
+                        - ZH
+          - name: Date_From
+            description: "The start date of the validity period"
+            tests:
+                - not_null
+          - name: Date_To
+            description: "The end date of the validity period"
+            tests:
+                - not_null
+          - name: Is_valid
+            description: "A flag that indicates if the record is valid"
+            tests:
+                - not_null
+                - accepted_values:
+                    values:
+                        - 'No'
+                        - 'Yes'
